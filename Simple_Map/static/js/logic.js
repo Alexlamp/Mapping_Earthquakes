@@ -1,9 +1,56 @@
 // Add console.log to check to see if our code is working.
 console.log("working");
 
+
 // Create the map object with a center and zoom level.
-// Create the map object with a center and zoom level.
-let map = L.map("mapid").setView([34.0522, -118.2437], 4);
+let map = L.map('mapid').setView([37.5, -122.5], 10);
+
+// Add GeoJSON data.
+let sanFranAirport =
+{"type":"FeatureCollection","features":[{
+    "type":"Feature",
+    "properties":{
+        "id":"3469",
+        "name":"San Francisco International Airport",
+        "city":"San Francisco",
+        "country":"United States",
+        "faa":"SFO",
+        "icao":"KSFO",
+        "alt":"13",
+        "tz-offset":"-8",
+        "dst":"A",
+        "tz":"America/Los_Angeles"},
+        "geometry":{
+            "type":"Point",
+            "coordinates":[-122.375,37.61899948120117]}}
+]};
+
+// Grabbing our GeoJSON data.
+L.geoJson(sanFranAirport, {
+    pointToLayer: function(feature, latlng) {
+      console.log(feature);
+	  return L.marker(latlng)
+	  .bindPopup("<h2>" + feature.properties.city + "</h2>");
+    }
+
+  }).addTo(map);
+
+let line = [
+	//JFK
+	[37.6213, -122.3790],
+   //AUS
+   [29.4174547,-94.9982594],
+   //JFK
+   [40.6398262,-73.7787443],
+   //YYZ
+   [43.651070,-79.347015],
+   ];
+   
+   // Create a polyline using the line coordinates and make the line red.
+   L.polyline(line, {
+	 color: "blue",
+	 dashArray:"10"
+   }).addTo(map);
 
 // Get data from cities.js
 let cityData = cities;
